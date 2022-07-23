@@ -1,7 +1,6 @@
 """ Class for testing service for obtaining information on defects present in the system. """
 from requests import Response, get
-
-from config import HOST
+from configs.config import HOST
 
 
 class Bugs:
@@ -12,9 +11,6 @@ class Bugs:
             bug_id -                id of bugs. 1 of 13
             authentication_data -   authentication data (usage access_token and refresh_token) for headers of requests
             path -                  request url
-
-        Returns:
-            response -              object of class Response
         """
         headers = {
             'access_token': 'Bearer ' + authentication_data['access_token'],
