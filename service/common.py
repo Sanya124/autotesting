@@ -9,22 +9,23 @@ class Common:
     def __init__(self):
         self.url = HOST + '/api/accounting/{path}'
 
-    def authentication(self, login, password, path='login'):
+    def authentication(self, login: str, password: str, path: str = 'login') -> dict:
         """ Authentication by the transmitted login and password.
 
         Args:
-            login -     user login:
+            login:      user login:
                             member;
                             admin;
-                            owner;
-            password -  user password (like login)
+                            owner.
+            password:   user password (like login);
+            path:       part of path in url.
 
         Returns:
-            access_token -          token of access
-            access_expires_in -     token lifetime
-            refresh_token -         token for refresh access_token
-            refresh_expires_in -    token lifetime
-            token_type -            type of token
+            access_token:           token of access;
+            access_expires_in:      token lifetime;
+            refresh_token:          token for refresh access_token;
+            refresh_expires_in:     token lifetime;
+            token_type:             type of token.
         """
         body = {
             'login': login,
@@ -43,21 +44,20 @@ class Common:
 
         return json.loads(response.text)
 
-    def logout(self, authentication_data, mode=False, path='logout'):
+    def logout(self, authentication_data: dict, mode: bool = False, path: str = 'logout') -> None:
         """ Delete a user session.
 
         Args:
-            authentication_data -   authentication data (usage access_token and refresh_token) for headers of requests
-            mode -                  logout mode (case-insensitive value):
+            authentication_data:    authentication data (usage access_token and refresh_token) for headers of requests;
+            mode:                   logout mode (case-insensitive value):
                                         True - log out of the current user session;
                                         False - log out of all user sessions.
-            path -                  request url
+            path:                   request url;
         """
         headers = {
             'accept': '*/*',
             'Content-Type': 'application/json',
-            'access_token': 'Bearer ' + authentication_data['access_token'],
-            'refresh_token': authentication_data['refresh_token']
+            'Authorization': authentication_data['access_token'],
         }
         query = 'ALL' if mode else 'CURRENT'
         response = request(
