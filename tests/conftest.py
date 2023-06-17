@@ -1,11 +1,17 @@
+import allure
 import pytest
 
-from service.common import Common
+from framework.endpoints.common import Common
 
 
-@pytest.fixture()
-def auth():
+@pytest.fixture(scope='session')
+@allure.title('Authentication with login owner')
+def authentication():
     """ Fixture for authentication. Logout after completed tests."""
-    auth = Common().authentication(login='owner', password='owner')
+    with allure.step('Authentication'):
+        auth = Common().authentication(login='owner', password='owner')
+
     yield auth
-    Common().logout(authentication_data=auth)
+
+    with allure.step('Logout'):
+        Common().logout(authentication_data=auth)

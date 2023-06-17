@@ -1,4 +1,4 @@
-""" Class for testing service for obtaining information on defects present in the system. """
+""" Class for testing framework for obtaining information on defects present in the system. """
 from requests import Response, get
 from configs.config import HOST
 
